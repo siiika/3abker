@@ -10,8 +10,8 @@ class UpdateUsersTableAllowNull extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             // Update the column to allow null
-            $table->string('father_name')->nullable()->change();
-            $table->string('phone')->nullable()->change();
+            $table->string('father_name')->nullable();
+            $table->string('phone')->nullable();
             $table->string('age')->nullable()->change();
         });
     }
@@ -19,9 +19,9 @@ class UpdateUsersTableAllowNull extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            // Revert the column to disallow null
-            $table->string('father_name')->nullable(false)->change();
-            $table->string('phone')->nullable(false)->change();
+
+            $table->dropColumn('father_name');
+            $table->dropColumn('phone');
             $table->string('age')->nullable(false)->change();
         });
     }

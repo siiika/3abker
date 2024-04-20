@@ -12,10 +12,10 @@ class TestController extends Controller
     use ApiResponseTrait;
     public function Create($TestId)
     {
-        $numQuestions = 2;
+        $numQuestions = 20;
         $test = Test::with(['questions' => function ($query) use ($numQuestions) {
             $query->with('answers')->take($numQuestions);
         }])->findOrFail($TestId);
-        return $this->successResponse(['test' => $test], "now you have atest with $numQuestions queations");
+        return $this->successResponse(['test' => $test], "now you have atest with $numQuestions queations at max");
     }
 }

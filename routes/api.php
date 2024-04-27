@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAuthController;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -62,11 +63,10 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('/user-tests/{userTestId}/answers', [UserTestAnswerController::class, 'show'])->name('user-test.show');
     Route::post('certificate', [CertificateController::class, 'store']);
 });
-
-
-// Route::get('test', function () {
-
-//     $course = Course::find(1);
-//     $video = $course->videos;
-//     dd($video);
-// });
+Route::middleware('jwt:admin')->group(function () {
+    Route::get('/admin/dashboard', 'AdminController@dashboard');
+});
+/*---------------------------------------------------------------------------------------------------------------------*/
+Route::post('/admin/login', [AdminAuthController::class, 'login']);
+Route::post('/admin/register', [AdminAuthController::class, 'register']);
+Route::post('/admin/logout', [AdminAuthController::class, 'logout']);

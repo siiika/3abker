@@ -48,6 +48,7 @@ class AuthController extends Controller
             'phone' => 'required|string|max:20',
             'father_name' => 'required|string|max:255', // Apply conditional rule
             'age' => 'required|integer|min:1',
+
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
@@ -60,6 +61,7 @@ class AuthController extends Controller
             'phone' => $request->get('phone'),
             'father_name' => $request->get('father_name'), // Apply conditional rule
             'age' => $request->get('age'),
+            'role' => 'user'
         ]);
 
         $token = JWTAuth::fromUser($user);

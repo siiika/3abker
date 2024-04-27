@@ -30,7 +30,7 @@ class PasswordResetController extends Controller
 
 
         $user->notify(new ResetPassword($token));
-        return $this->successResponse(null, 'Reset email sent Successfully');
+        return $this->successResponse($token, 'Reset email sent Successfully');
     }
 
     // private function generateToken()

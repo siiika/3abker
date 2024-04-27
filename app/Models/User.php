@@ -27,7 +27,8 @@ class User extends Authenticatable implements JWTSubject
         'father_name',
         'age',
         'social_id',
-        'social_type'
+        'social_type',
+        'role'
     ];
 
     /**
@@ -49,6 +50,16 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function scopeAdmins($query)
+    {
+        return $query->where('role', 'admin');
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 
     public function courses()
     {

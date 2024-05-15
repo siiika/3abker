@@ -12,6 +12,7 @@ class Video extends Model
         'course_id', // Assuming you have a foreign key for the course this video belongs to
         'title',
         'url',
+        'description'
         // Add other fields as needed
     ];
 

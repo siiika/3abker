@@ -90,7 +90,12 @@ class AuthController extends Controller
             // Attempt to refresh the token
             $token = JWTAuth::parseToken()->refresh();
             // Return the refreshed token
-            return $this->successResponse("'token' => $token", 'this is the new token', 200);
+            return response()->json([
+                'success' => true,
+                'token' => $token,
+                'message' => 'this is the new tokenn',
+            ], 200);
+            // return $this->successResponse($token, 'this is the new tokenn', 200);
         } catch (\Exception $e) {
             // Something went wrong, return error response
             return $this->errorResponse('Unauthorized', 401);

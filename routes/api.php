@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\TestController as Admintestcontroller;
+
+use App\Http\Controllers\Admin\VideoController as AdminVideoController;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -63,10 +66,28 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('/user-tests/{userTestId}/answers', [UserTestAnswerController::class, 'show'])->name('user-test.show');
     Route::post('certificate', [CertificateController::class, 'store']);
 });
-Route::middleware('jwt:admin')->group(function () {
-    Route::get('/admin/dashboard', 'AdminController@dashboard');
-});
+
 /*---------------------------------------------------------------------------------------------------------------------*/
-Route::post('/admin/login', [AdminAuthController::class, 'login']);
-Route::post('/admin/register', [AdminAuthController::class, 'register']);
-Route::post('/admin/logout', [AdminAuthController::class, 'logout']);
+
+
+
+Route::group(['prefix' => 'admin', 'middleware' => ['jwt.auth', 'role:admin']], function () {
+    Route::get('/demo', 'AdminController@demo');
+    Route::post('/register', [AdminAuthController::class, 'register']);
+    Route::post('/logout', [AdminAuthController::class, 'logout']);
+    Route::get('/videos', [AdminVideoController::class, 'index']);
+    Route::get('/videos/{id}', [AdminVideoController::class, 'show']);
+    Route::post('/videos', [AdminVideoController::class, 'store']);
+    Route::post('/videos/{id}', [AdminVideoController::class, 'update']);
+    Route::delete('/videos/{id}', [AdminVideoController::class, 'destroy']);
+    Route::post('tests/create', [Admintestcontroller::class, 'storeWithQuestions']);
+    Route::delete('/tests/{test}', [Admintestcontroller::class, 'destroy']);
+    Route::get('/tests', [Admintestcontroller::class, 'index']);
+    Route::get('/tests/{test}', [Admintestcontroller::class, 'show']);
+    Route::put('/tests/{test}', [Admintestcontroller::class, 'update']);
+
+
+    Route::get('/ss', function () {
+        return response()->json('hello siiko');
+    });
+});

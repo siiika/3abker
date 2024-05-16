@@ -16,6 +16,7 @@ use App\Http\Controllers\API\SocialiteContoller;
 use App\Http\Controllers\API\UserSettingController;
 use App\Http\Controllers\API\PasswordResetController;
 use App\Http\Controllers\API\UserTestAnswerController;
+use App\Http\Controllers\CourseEnrollmentController;
 use App\Http\Controllers\InterPasswordToPassController;
 
 /*
@@ -65,6 +66,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('/user-tests/{userTestId}/answers', [UserTestAnswerController::class, 'store']);
     Route::get('/user-tests/{userTestId}/answers', [UserTestAnswerController::class, 'show'])->name('user-test.show');
     Route::post('certificate', [CertificateController::class, 'store']);
+    Route::post('courses/{courseId}/enroll', [CourseEnrollmentController::class, 'enroll']);
 });
 
 /*---------------------------------------------------------------------------------------------------------------------*/

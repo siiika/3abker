@@ -108,10 +108,18 @@ class AuthController extends Controller
     }
     protected function respondWithToken($token)
     {
+        $user = auth('api')->user();
+
+        if (!$user) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60 //mention the guard name inside the auth fn
+            'expires_in' => auth('api')->factory()->getTTL() * 600,
+            'role' => $user->role,
+
         ]);
     }
 }

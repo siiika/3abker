@@ -21,11 +21,18 @@ class ProgressController extends Controller
      */
     public function markVideoAsWatched(Request $request, $videoId)
     {
+
         $user = JWTAuth::user();
         $video = Video::findOrFail($videoId);
 
+        // Check if the video is already marked as watched by the user
+        if ($user->watchedVideos()->where('video_id', $videoId)->exists()) {
+            return $this->successResponse(null, 'Video already marked as watched');
+        }
+
         // Attach the video to the user and include additional data for the pivot table
         $user->watchedVideos()->attach($videoId, ['watched_at' => now()]);
+
         return $this->successResponse(null, 'Video marked as watched');
     }
 

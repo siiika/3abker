@@ -88,8 +88,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.auth', 'role:admin']], 
     Route::get('/tests/{test}', [Admintestcontroller::class, 'show']);
     Route::put('/tests/{test}', [Admintestcontroller::class, 'update']);
 
-
-    Route::get('/ss', function () {
+    Route::get('/s', function () {
         return response()->json('hello siiko');
     });
 });

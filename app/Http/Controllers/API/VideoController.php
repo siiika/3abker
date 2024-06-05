@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\UserVideo;
 use App\Traits\ApiResponseTrait;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class VideoController extends Controller
@@ -21,7 +23,12 @@ class VideoController extends Controller
         }
         $course = Course::findOrFail($courseId);
         $videos = $course->videos;
-        return $this->successResponse($videos, 'this is all videos in the course');
+
+
+        // Fetch videos for the authenticated user
+        $data = UserVideo::where('user_id', $user->id)->get();
+
+        return $this->successResponse([$videos, $data], 'this is all videos in the course');
         // return response()->json($videos);
     }
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserVideo extends Model
 {
     use HasFactory;
+    protected $table = 'user_video';
 
     protected $fillable = [
         'user_id',

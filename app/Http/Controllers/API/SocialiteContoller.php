@@ -39,7 +39,6 @@ class SocialiteContoller extends Controller
                 'name' => $googleUser->getName(),
                 'email' => $googleUser->getEmail(),
                 'password' => Hash::make('my-google'), // Generate a random password
-                'social_id' => $googleUser->getId(), // Store Google's unique user ID
                 'social_type' => 'google', // Indicate the type of social login
                 'phone' => null, // Initialize with null values
                 'father_name' => null,

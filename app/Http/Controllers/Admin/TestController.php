@@ -92,4 +92,24 @@ class TestController extends Controller
 
         return $this->successResponse($test);
     }
+
+    public function updateTitle(Request $request, $id)
+    {
+        // Validate the request data
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        // Find the test by ID or fail if not found
+        $test = Test::findOrFail($id);
+
+        // Update the title
+        $test->title = $request->input('title');
+
+        // Save the updated test
+        $test->save();
+
+        // Return a success response with the updated test
+        return $this->successResponse($test);
+    }
 }

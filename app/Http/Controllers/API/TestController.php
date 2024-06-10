@@ -13,15 +13,15 @@ class TestController extends Controller
 
     public function Create($TestId)
     {
-        $numQuestions = 10;
+        $numQuestions = 10; // This variable is no longer needed if we are retrieving all questions.
 
-        // Retrieve the test with a limited number of questions and their answers
-        $test = Test::with(['questions' => function ($query) use ($numQuestions) {
+        // Retrieve the test with all questions and their answers
+        $test = Test::with(['questions' => function ($query) {
             $query->with(['answers' => function ($query) {
                 $query->inRandomOrder();
-            }])->inRandomOrder()->take($numQuestions);
+            }])->inRandomOrder(); // This will fetch all questions in a random order.
         }])->findOrFail($TestId);
 
-        return $this->successResponse(['test' => $test], "Now you have a test with up to $numQuestions questions.");
+        return $this->successResponse(['test' => $test], "Now you have a test with all questions.");
     }
 }
